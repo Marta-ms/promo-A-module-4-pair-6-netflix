@@ -1,13 +1,30 @@
 const express = require('express');
 const cors = require('cors');
+const mysql = require("mysql2/promise");
 
 // create and config server
 const server = express();
 server.use(cors());
 server.use(express.json());
 
+
+//conectar a la bbdd
+
+
+async function getDBConnection() {
+  const connection = await mysql.createConnection({
+      // configuración
+      host: "localhost",
+      user: "root",
+      password: "Adalab_2024",
+      database: "netflix"
+  })
+  connection.connect();
+  return connection;
+}
+
 // init express aplication
-const serverPort = 4000;
+const serverPort = 4001;
 server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
@@ -36,8 +53,8 @@ const fakeMovies = [
 ];
 
 server.get("/movies", (req, res) => {
-  res.statusCode(200).json({
+  res.status(200).json({
     success: true,
-    movies:  fakeMovies,
+    movies:  results
   });
 });
