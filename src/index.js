@@ -23,6 +23,8 @@ async function getDBConnection() {
   return connection;
 }
 
+
+
 // init express aplication
 const serverPort = 4001;
 server.listen(serverPort, () => {
@@ -52,9 +54,20 @@ const fakeMovies = [
   },
 ];
 
-server.get("/movies", (req, res) => {
-  res.status(200).json({
-    success: true,
-    movies:  results
-  });
+server.get("/movies/:id", async (req, res) => {
+  console.log(req.params.id);
+  const connection = await getDBConnection();
+  const query = "SELECT * FROM movies WHERE id = ?";
+  const [result] = await connection.query(query);
+
+  console.log(result);
+
+  
+  // res.status(200).json({
+  //   success: true,
+  //   movies: fakeMovies
+  // });
+
+  
 });
+
