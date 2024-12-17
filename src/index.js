@@ -17,7 +17,8 @@ async function getDBConnection() {
       host: "localhost",
       user: "root",
       password: "Adalab_2024",
-      database: "netflix"
+      database: "netflix",
+      port: 3306
   })
   connection.connect();
   return connection;
