@@ -54,19 +54,27 @@ const fakeMovies = [
   },
 ];
 
-server.get("/movies/:id", async (req, res) => {
-  console.log(req.params.id);
+server.get("/movies", async (req, res) => {
+  console.log(req.params.movieId);
   const connection = await getDBConnection();
-  const query = "SELECT * FROM movies WHERE id = ?";
+  const query = "SELECT * FROM movies";
   const [result] = await connection.query(query);
-
   console.log(result);
 
+  connection.end();
+
+  if (result.length === 0) {
+    res.status(404).json({
+        success: "error",
+        message: "No se encontraron estudiantes"
+    })
+} else {
+    res.status(200).json({
+        success: true,
+        message: fakeMovies
+    });
+}
   
-  // res.status(200).json({
-  //   success: true,
-  //   movies: fakeMovies
-  // });
 
   
 });
