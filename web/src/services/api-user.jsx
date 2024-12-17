@@ -32,12 +32,8 @@ const sendSignUpToApi = (data) => {
     "//beta.adalab.es/curso-intensivo-fullstack-recursos/apis/netflix-v1/empty.json"
   )
     .then((response) => response.json())
-    .then(() => {
-      // CAMBIA EL CONTENIDO DE ESTE THEN PARA GESTIONAR LA RESPUESTA DEL SERVIDOR Y RETORNAR AL COMPONENTE APP LO QUE NECESITA
-      return {
-        success: false,
-        errorMessage: "Usuario ya existente",
-      };
+    .then (data => {
+      return data;
     });
 };
 
