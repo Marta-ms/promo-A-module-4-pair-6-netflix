@@ -16,15 +16,13 @@ async function getDBConnection() {
       // configuración
       host: "localhost",
       user: "root",
-      password: "Adalab_2024",
+      password: "12345",
       database: "netflix",
       port: 3306
   })
   connection.connect();
   return connection;
 }
-
-
 
 // init express aplication
 const serverPort = 4001;
@@ -75,8 +73,25 @@ server.get("/movies", async (req, res) => {
         message: fakeMovies
     });
 }
-  
-
-  
 });
+
+//Insertar nuevo usuario para registro en la db
+const query = "INSERT INTO users (user, hashed_password, email) VALUE (?, ?, ?)";
+
+
+
+
+//EndPoint para autenticación
+server.post("/sign-up", async (req, res) =>{
+  const { user, password, email } = req.body;
+  const connection = await getDBConnection();
+  console.log(user,password, email);
+
+  //verificar que el mail existe en nuestra base de datos
+  const emailQuery = "SELECT * FROM users WHERE email = ?";
+  const [resultUser] = await connection.query(emailQuery, [email]);
+  res.json({
+  });
+
+})
 
