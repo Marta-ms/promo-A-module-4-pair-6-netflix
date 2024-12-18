@@ -77,8 +77,10 @@ server.get("/movies", async (req, res) => {
 
 //Insertar nuevo usuario para registro en la db
 const query = "INSERT INTO users (user, hashed_password, email) VALUE (?, ?, ?)";
-
-
+const [result] = await connection.query(query, [
+  user, passwordHashed, email
+])
+console.log(result);
 
 
 //EndPoint para autenticación
