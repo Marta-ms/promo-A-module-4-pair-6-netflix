@@ -25,7 +25,7 @@ async function getDBConnection() {
 }
 
 // init express aplication
-const serverPort = 4001;
+const serverPort = 4002;
 server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
@@ -74,16 +74,14 @@ server.get("/movies", async (req, res) => {
     });
 }
 });
-// log in
-server.post("/api/login", async (req, res) => {
-  const  { email, password } = req.body;
-  console.log (req.body);
-  
-  const emailQuery = "SELECT * FROM users WHERE email = ?";
-  const [resultUser] = await connection.query(emailQuery, [email]);
-  res.json({
-  });
-})
+
+//Insertar nuevo usuario para registro en la db
+const query = "INSERT INTO users (user, hashed_password, email) VALUE (?, ?, ?)";
+const [result] = await connection.query(query, [
+  user, passwordHashed, email
+])
+console.log(result);
+
 
 //EndPoint para autenticación
 server.post("/sign-up", async (req, res) =>{
@@ -92,9 +90,10 @@ server.post("/sign-up", async (req, res) =>{
   console.log(user,password, email);
 
   //verificar que el mail existe en nuestra base de datos
-  const query = "INSERT INTO users (user, hashed_password, email) VALUE (?, ?, ?)";
-  const [result] = await connection.query(query, [
-    user, passwordHashed, email
-  ])
+  const emailQuery = "SELECT * FROM users WHERE email = ?";
+  const [resultUser] = await connection.query(emailQuery, [email]);
+  res.json({
+  });
+
 })
 
